@@ -28,12 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBoxLanguage = new System.Windows.Forms.ComboBox();
+            this.SuspendLayout();
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // comboBoxLanguage
+            // 
+            resources.ApplyResources(this.comboBoxLanguage, "comboBoxLanguage");
+            this.comboBoxLanguage.FormattingEnabled = true;
+            this.comboBoxLanguage.Name = "comboBoxLanguage";
+            this.comboBoxLanguage.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguage_SelectedIndexChanged);
+            // 
+            // Form1
+            // 
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.Controls.Add(this.comboBoxLanguage);
+            this.Controls.Add(this.label1);
+            this.Name = "Form1";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private Label label1;
+        private ComboBox comboBoxLanguage;
     }
 }
