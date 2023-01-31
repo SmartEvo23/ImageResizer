@@ -58,76 +58,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="labelLanguage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>562, 386</value>
-  </data>
-  <data name="labelLanguage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 23</value>
-  </data>
-  <data name="labelLanguage.Text" xml:space="preserve">
-    <value>Language:</value>
-  </data>
-  <data name="comboBoxLanguage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>664, 386</value>
-  </data>
-  <data name="selectImage.Text" xml:space="preserve">
-    <value>Select Image</value>
-  </data>
-  <data name="textBoxSelect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>480, 23</value>
-  </data>
-  <data name="buttonSelect.Text" xml:space="preserve">
-    <value>Select</value>
-  </data>
-  <data name="saveImage.Text" xml:space="preserve">
-    <value>Save Image</value>
-  </data>
-  <data name="textBoxSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>480, 23</value>
-  </data>
-  <data name="buttonSave1.Text" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="checkBoxAutoResize.Text" xml:space="preserve">
-    <value>AutoResize</value>
-  </data>
-  <data name="labelRatio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>371, 23</value>
-  </data>
-  <data name="labelRatio.Text" xml:space="preserve">
-    <value>(Image Ration 13:8 AND Thumbnail 400x280 px)</value>
-  </data>
-  <data name="labelWidth.Text" xml:space="preserve">
-    <value>Width:</value>
-  </data>
-  <data name="labelHeight.Text" xml:space="preserve">
-    <value>Height:</value>
-  </data>
-  <data name="labelType.Text" xml:space="preserve">
-    <value>Type:</value>
-  </data>
-  <data name="labelHelp.Text" xml:space="preserve">
-    <value>Help:</value>
-  </data>
-  <data name="buttonShow.Text" xml:space="preserve">
-    <value>Show</value>
-  </data>
-  <data name="buttonResize.Text" xml:space="preserve">
-    <value>Resize</value>
-  </data>
-  <data name="buttonSave2.Text" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="labelProgress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>197, 386</value>
-  </data>
-  <data name="labelProgress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 23</value>
-  </data>
-  <data name="labelProgress.Text" xml:space="preserve">
-    <value>Progress:</value>
-  </data>
-  <data name="progressBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 23</value>
+  <data name="labelRatio.Location" type="System.Drawing.Point, System.Drawing">
+    <value>175, 127</value>
   </data>
 </root>
