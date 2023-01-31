@@ -1,6 +1,7 @@
 namespace ResizeImage
 {
     using System.ComponentModel;
+    using System.Drawing.Drawing2D;
     using System.Globalization;
     using System.Threading;
 
@@ -110,14 +111,64 @@ namespace ResizeImage
             return bmp;
         }
 
+        //Resize/Draw image on x and y with newWidth and newHeight
+        public static Image ResizeImage(Image image, int w, int h)
+        {
+            var originalWidth = image.Width;
+            var originalHeight = image.Height;
+
+            //how many units are there to make the original length
+            var hRatio = (float)originalHeight / h;
+            var wRatio = (float)originalWidth / w;
+
+            //get the shorter side
+            var ratio = Math.Min(hRatio, wRatio);
+
+            var hScale = Convert.ToInt32(h * ratio);
+            var wScale = Convert.ToInt32(w * ratio);
+
+            //start cropping from the center
+            var startX = (originalWidth - wScale) / 2;
+            var startY = (originalHeight - hScale) / 2;
+
+            //crop the image from the specified location and size
+            var sourceRectangle = new Rectangle(startX, startY, wScale, hScale);
+
+            //the future size of the image
+            var bitmap = new Bitmap(w, h);
+
+            //fill-in the whole bitmap
+            var destinationRectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+
+            //generate the new image
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(image, destinationRectangle, sourceRectangle, GraphicsUnit.Pixel);
+            }
+
+            return bitmap;
+        }
+
         private void buttonResize_Click(object sender, EventArgs e)
         {
-            if (textBoxSelect.Text != null && textBoxSave.Text != null)
-            {
-                int w = Convert.ToInt32(textBoxWidth.Text);
-                int h = Convert.ToInt32(textBoxHeight.Text);
-                img = Resize(img, w, h);
-                ((Button)sender).Enabled = false;
+            if (textBoxSelect.Text != null && textBoxSave.Text != null) 
+            { 
+                if (checkBoxAutoResize.Checked)
+                {
+                    int w = 400;
+                    int h = 280;
+                    img = ResizeImage(img, w, h);
+                    ((Button)sender).Enabled = false;
+                }
+                else
+                {
+                    int w = Convert.ToInt32(textBoxWidth.Text);
+                    int h = Convert.ToInt32(textBoxHeight.Text);
+                    img = Resize(img, w, h);
+                    ((Button)sender).Enabled = false;
+                }
+
             }
             else
             {
@@ -134,6 +185,7 @@ namespace ResizeImage
         {
             int dot = 0; 
             int slash = 0;
+
             for (int j = textBoxSelect.Text.Length - 1; j >= 0; j--)
             {
                 if (textBoxSelect.Text[j] == '.')
@@ -144,6 +196,25 @@ namespace ResizeImage
                     break;
                 }
             }
+
+            if (comboBoxFileType.SelectedIndex == null) 
+            {
+                img.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + "(1)" + ".jpg");
+                ((Button)sender).Enabled = false;
+                MessageBox.Show("Image saved!");
+                ((Button)sender).Enabled = true;
+            }
+            else
+            {
+                img.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + "(1)" + fileType[comboBoxFileType.SelectedIndex]);
+                ((Button)sender).Enabled = false;
+                MessageBox.Show("Image saved!");
+                ((Button)sender).Enabled = true;
+            }
+
+            buttonResize.Enabled = true;
+            buttonSave2.Enabled = true;
+            progressBar1.Value = 0;
         }
     }
 }
