@@ -2,7 +2,9 @@ namespace ResizeImage
 {
     using System.ComponentModel;
     using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
     using System.Globalization;
+    using System.IO;
     using System.Threading;
 
     public partial class Form1 : Form
@@ -26,6 +28,56 @@ namespace ResizeImage
             labelHeight.Enabled = false;
             labelType.Enabled = false;
             comboBoxFileType.Enabled = false;
+        }
+
+        private static void ResizeImage2(string originalPath, string originalFileName, string newPath, string newFileName, int maximumWidth, int maximumHeight, bool enforceRatio, bool addPadding)
+        {
+            var image = Image.FromFile(originalPath + "\\" + originalFileName);
+            var imageEncoders = ImageCodecInfo.GetImageEncoders();
+            EncoderParameters encoderParameters = new EncoderParameters(1);
+            encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 100L);
+            var canvasWidth = maximumWidth;
+            var canvasHeight = maximumHeight;
+            var newImageWidth = maximumWidth;
+            var newImageHeight = maximumHeight;
+            var xPosition = 0;
+            var yPosition = 0;
+
+
+            if (enforceRatio)
+            {
+                var ratioX = maximumWidth / (double)image.Width;
+                var ratioY = maximumHeight / (double)image.Height;
+                var ratio = ratioX < ratioY ? ratioX : ratioY;
+               
+                newImageHeight = (int)(image.Height * ratio);
+                newImageWidth = (int)(image.Width * ratio);
+
+                if (newImageWidth < 400)
+                {
+                    newImageWidth = newImageWidth + (400 - newImageWidth);
+                    newImageHeight = newImageHeight + (400 - newImageWidth);
+                }
+                else if (newImageHeight < 280)
+                {
+                    newImageWidth = newImageWidth + (280 - newImageHeight);
+                    newImageHeight = newImageHeight + (280 - newImageHeight);
+                }
+
+                canvasWidth = newImageWidth;
+                canvasHeight = newImageHeight;
+            }
+
+            var thumbnail = new Bitmap(canvasWidth, canvasHeight);
+            var graphic = Graphics.FromImage(thumbnail);
+
+            graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphic.SmoothingMode = SmoothingMode.HighQuality;
+            graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            graphic.CompositingQuality = CompositingQuality.HighQuality;
+            graphic.DrawImage(image, xPosition, yPosition, newImageWidth, newImageHeight);
+
+            thumbnail.Save(newPath + "\\" + newFileName, imageEncoders[1], encoderParameters);
         }
 
         private void comboBoxLanguage_SelectedIndexChanged(object sender, EventArgs e)
@@ -199,14 +251,14 @@ namespace ResizeImage
 
             if (comboBoxFileType.SelectedItem == null) 
             {
-                img.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + "(1)" + ".jpg");
+                img.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " 400x280" + ".jpg");
                 ((Button)sender).Enabled = false;
                 MessageBox.Show("Image saved!");
                 ((Button)sender).Enabled = true;
             }
             else
             {
-                img.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + "(1)" + fileType[comboBoxFileType.SelectedIndex]);
+                img.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " 400x280" + fileType[comboBoxFileType.SelectedIndex]);
                 ((Button)sender).Enabled = false;
                 MessageBox.Show("Image saved!");
                 ((Button)sender).Enabled = true;
@@ -215,6 +267,9 @@ namespace ResizeImage
             buttonResize.Enabled = true;
             buttonSave2.Enabled = true;
             progressBar1.Value = 0;
+
+            var path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            ResizeImage2(img, "large.jpg", img, "micsorat.jpg", 400, 280, true, true);
         }
     }
 }
