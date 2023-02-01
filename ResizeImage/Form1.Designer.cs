@@ -143,6 +143,11 @@
             // 
             resources.ApplyResources(this.comboBoxFileType, "comboBoxFileType");
             this.comboBoxFileType.FormattingEnabled = true;
+            this.comboBoxFileType.Items.AddRange(new object[] {
+            resources.GetString("comboBoxFileType.Items"),
+            resources.GetString("comboBoxFileType.Items1"),
+            resources.GetString("comboBoxFileType.Items2"),
+            resources.GetString("comboBoxFileType.Items3")});
             this.comboBoxFileType.Name = "comboBoxFileType";
             // 
             // labelHelp

@@ -72,10 +72,10 @@ namespace ResizeImage
         private void buttonSave1_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if (fbd.ShowDialog() == DialogResult.OK)
-            {
-                textBoxSave.Text = fbd.SelectedPath;
-            }
+            if (fbd.ShowDialog() == DialogResult.OK) textBoxSave.Text = fbd.SelectedPath;
+
+            imgWidth = img.Width;
+            imgHeight = img.Height;
         }
 
         private void checkBoxAutoResize_CheckedChanged(object sender, EventArgs e)
@@ -197,7 +197,7 @@ namespace ResizeImage
                 }
             }
 
-            if (comboBoxFileType.SelectedIndex == null) 
+            if (comboBoxFileType.SelectedItem == null) 
             {
                 img.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + "(1)" + ".jpg");
                 ((Button)sender).Enabled = false;

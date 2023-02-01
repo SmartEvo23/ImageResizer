@@ -106,6 +106,18 @@
   <data name="labelType.Text" xml:space="preserve">
     <value>Type:</value>
   </data>
+  <data name="comboBoxFileType.Items" xml:space="preserve">
+    <value>.png</value>
+  </data>
+  <data name="comboBoxFileType.Items1" xml:space="preserve">
+    <value>.jpeg</value>
+  </data>
+  <data name="comboBoxFileType.Items2" xml:space="preserve">
+    <value>.jpg</value>
+  </data>
+  <data name="comboBoxFileType.Items3" xml:space="preserve">
+    <value>.gif</value>
+  </data>
   <data name="labelHelp.Text" xml:space="preserve">
     <value>Help:</value>
   </data>
