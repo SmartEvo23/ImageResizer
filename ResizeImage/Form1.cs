@@ -1,6 +1,7 @@
 namespace ResizeImage
 {
     using System.ComponentModel;
+    using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
     using System.Globalization;
@@ -10,7 +11,8 @@ namespace ResizeImage
     public partial class Form1 : Form
     {
 
-        Image img;
+        Image img1;
+        Image img2;
         string[] fileType = { ".png", ".jpeg", ".jpg", ".gif" };
         int imgWidth;
         int imgHeight;
@@ -28,57 +30,7 @@ namespace ResizeImage
             labelHeight.Enabled = false;
             labelType.Enabled = false;
             comboBoxFileType.Enabled = false;
-        }
-
-        private static void ResizeImage2(string originalPath, string originalFileName, string newPath, string newFileName, int maximumWidth, int maximumHeight, bool enforceRatio, bool addPadding)
-        {
-            var image = Image.FromFile(originalPath + "\\" + originalFileName);
-            var imageEncoders = ImageCodecInfo.GetImageEncoders();
-            EncoderParameters encoderParameters = new EncoderParameters(1);
-            encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, 100L);
-            var canvasWidth = maximumWidth;
-            var canvasHeight = maximumHeight;
-            var newImageWidth = maximumWidth;
-            var newImageHeight = maximumHeight;
-            var xPosition = 0;
-            var yPosition = 0;
-
-
-            if (enforceRatio)
-            {
-                var ratioX = maximumWidth / (double)image.Width;
-                var ratioY = maximumHeight / (double)image.Height;
-                var ratio = ratioX < ratioY ? ratioX : ratioY;
-               
-                newImageHeight = (int)(image.Height * ratio);
-                newImageWidth = (int)(image.Width * ratio);
-
-                if (newImageWidth < 400)
-                {
-                    newImageWidth = newImageWidth + (400 - newImageWidth);
-                    newImageHeight = newImageHeight + (400 - newImageWidth);
-                }
-                else if (newImageHeight < 280)
-                {
-                    newImageWidth = newImageWidth + (280 - newImageHeight);
-                    newImageHeight = newImageHeight + (280 - newImageHeight);
-                }
-
-                canvasWidth = newImageWidth;
-                canvasHeight = newImageHeight;
-            }
-
-            var thumbnail = new Bitmap(canvasWidth, canvasHeight);
-            var graphic = Graphics.FromImage(thumbnail);
-
-            graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            graphic.SmoothingMode = SmoothingMode.HighQuality;
-            graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            graphic.CompositingQuality = CompositingQuality.HighQuality;
-            graphic.DrawImage(image, xPosition, yPosition, newImageWidth, newImageHeight);
-
-            thumbnail.Save(newPath + "\\" + newFileName, imageEncoders[1], encoderParameters);
-        }
+        }  
 
         private void comboBoxLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -117,7 +69,8 @@ namespace ResizeImage
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 textBoxSelect.Text = ofd.FileName;
-                img = Image.FromFile(ofd.FileName);
+                img1 = Image.FromFile(ofd.FileName);
+                img2 = Image.FromFile(ofd.FileName);
             }
         }
 
@@ -126,8 +79,8 @@ namespace ResizeImage
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() == DialogResult.OK) textBoxSave.Text = fbd.SelectedPath;
 
-            imgWidth = img.Width;
-            imgHeight = img.Height;
+            imgWidth = img1.Width;
+            imgHeight = img1.Height;
         }
 
         private void checkBoxAutoResize_CheckedChanged(object sender, EventArgs e)
@@ -163,15 +116,69 @@ namespace ResizeImage
             return bmp;
         }
 
-        //Resize/Draw image on x and y with newWidth and newHeight
-        public static Image ResizeImage(Image image, int w, int h)
+        //Resize with center
+        public static Image ResizeImage1(Image image, int w, int h, bool addPadding, bool enforceRatio)
+        {
+            var originalWidth = image.Width;
+            var originalHeight = image.Height;
+            var canvasWidth = w;
+            var canvasHeight = h;
+            var newImageWidth = w;
+            var newImageHeight = h;
+            var xPosition = 0;
+            var yPosition = 0;
+
+            if (enforceRatio)
+            {
+                var ratioX = w / (double)originalWidth;
+                var ratioY = h / (double)originalHeight;
+                var ratio = ratioX < ratioY ? ratioX : ratioY;
+                newImageWidth = (int)(image.Width * ratio);
+                newImageHeight = (int)(image.Height * ratio);
+
+                if (enforceRatio && addPadding)
+                {
+                    if (newImageWidth < 400)
+                    {
+                        newImageWidth = newImageWidth + (400 - newImageWidth);
+                        newImageHeight = newImageHeight + (400 - newImageWidth);
+                    }
+                    else if (newImageHeight < 280)
+                    {
+                        newImageWidth = newImageWidth + (280 - newImageHeight);
+                        newImageHeight = newImageHeight + (280 - newImageHeight);
+                    }
+                }
+
+                canvasWidth = newImageWidth;
+                canvasHeight = newImageHeight;
+            }
+
+            
+
+            var bitmap = new Bitmap(canvasWidth, canvasHeight);
+
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.DrawImage(image, xPosition, yPosition, newImageWidth, newImageHeight);
+            }
+
+            return bitmap;
+        }
+
+        //Resize with crop/Draw image on x and y with newWidth and newHeight
+        public static Image ResizeImage2(Image image, int w, int h)
         {
             var originalWidth = image.Width;
             var originalHeight = image.Height;
 
             //how many units are there to make the original length
-            var hRatio = (float)originalHeight / h;
             var wRatio = (float)originalWidth / w;
+            var hRatio = (float)originalHeight / h;
 
             //get the shorter side
             var ratio = Math.Min(hRatio, wRatio);
@@ -210,14 +217,15 @@ namespace ResizeImage
                 {
                     int w = 400;
                     int h = 280;
-                    img = ResizeImage(img, w, h);
+                    img1 = ResizeImage1(img1, 400, 280, true, true);
+                    img2 = ResizeImage2(img2, w, h);
                     ((Button)sender).Enabled = false;
                 }
                 else
                 {
                     int w = Convert.ToInt32(textBoxWidth.Text);
                     int h = Convert.ToInt32(textBoxHeight.Text);
-                    img = Resize(img, w, h);
+                    img1 = Resize(img1, w, h);
                     ((Button)sender).Enabled = false;
                 }
 
@@ -251,14 +259,16 @@ namespace ResizeImage
 
             if (comboBoxFileType.SelectedItem == null) 
             {
-                img.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " 400x280" + ".jpg");
+                img1.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " mijlociu" + ".jpg");
+                img2.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " 400x280" + ".jpg");
                 ((Button)sender).Enabled = false;
                 MessageBox.Show("Image saved!");
                 ((Button)sender).Enabled = true;
             }
             else
             {
-                img.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " 400x280" + fileType[comboBoxFileType.SelectedIndex]);
+                img1.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " mijlociu" + fileType[comboBoxFileType.SelectedIndex]);
+                img2.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " 400x280" + fileType[comboBoxFileType.SelectedIndex]);
                 ((Button)sender).Enabled = false;
                 MessageBox.Show("Image saved!");
                 ((Button)sender).Enabled = true;
@@ -268,8 +278,6 @@ namespace ResizeImage
             buttonSave2.Enabled = true;
             progressBar1.Value = 0;
 
-            var path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            ResizeImage2(img, "large.jpg", img, "micsorat.jpg", 400, 280, true, true);
         }
     }
 }
