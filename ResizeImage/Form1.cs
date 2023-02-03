@@ -211,8 +211,12 @@ namespace ResizeImage
 
         private void buttonResize_Click(object sender, EventArgs e)
         {
-            if (textBoxSelect.Text != null && textBoxSave.Text != null) 
-            { 
+            if (String.IsNullOrEmpty(textBoxSelect.Text) && String.IsNullOrEmpty(textBoxSave.Text)) 
+            {
+                MessageBox.Show("Selectati imaginea si alegeti zona de salvare!");
+            }
+            else
+            {
                 if (checkBoxAutoResize.Checked)
                 {
                     int w = 400;
@@ -229,16 +233,11 @@ namespace ResizeImage
                     ((Button)sender).Enabled = false;
                 }
 
-            }
-            else
-            {
-                MessageBox.Show("Selectati imaginea si alegeti zona de salvare!");
-            }
+                progressBar1.Maximum = 100;
+                progressBar1.Value = 0;
 
-            progressBar1.Maximum = 100;
-            progressBar1.Value = 0;
-
-            for (var i = 0; i < 100; i++) progressBar1.Value++;
+                for (var i = 0; i < 100; i++) progressBar1.Value++;
+            }
         }
 
         private void buttonSave2_Click(object sender, EventArgs e)
