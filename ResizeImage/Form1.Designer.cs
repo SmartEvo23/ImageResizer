@@ -51,6 +51,9 @@
             this.buttonSave2 = new System.Windows.Forms.Button();
             this.labelProgress = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.nr1 = new System.Windows.Forms.Label();
+            this.nr2 = new System.Windows.Forms.Label();
+            this.sageti = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelLanguage
@@ -185,10 +188,31 @@
             resources.ApplyResources(this.progressBar1, "progressBar1");
             this.progressBar1.Name = "progressBar1";
             // 
+            // nr1
+            // 
+            resources.ApplyResources(this.nr1, "nr1");
+            this.nr1.ForeColor = System.Drawing.Color.Red;
+            this.nr1.Name = "nr1";
+            // 
+            // nr2
+            // 
+            resources.ApplyResources(this.nr2, "nr2");
+            this.nr2.ForeColor = System.Drawing.Color.Red;
+            this.nr2.Name = "nr2";
+            // 
+            // sageti
+            // 
+            resources.ApplyResources(this.sageti, "sageti");
+            this.sageti.ForeColor = System.Drawing.Color.Red;
+            this.sageti.Name = "sageti";
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.sageti);
+            this.Controls.Add(this.nr2);
+            this.Controls.Add(this.nr1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.labelProgress);
             this.Controls.Add(this.buttonSave2);
@@ -241,5 +265,8 @@
         private Button buttonSave2;
         private Label labelProgress;
         private ProgressBar progressBar1;
+        private Label nr1;
+        private Label nr2;
+        private Label sageti;
     }
 }

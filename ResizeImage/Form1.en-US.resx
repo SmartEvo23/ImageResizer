@@ -106,26 +106,20 @@
   <data name="labelType.Text" xml:space="preserve">
     <value>Type:</value>
   </data>
-  <data name="comboBoxFileType.Items" xml:space="preserve">
-    <value>.png</value>
-  </data>
-  <data name="comboBoxFileType.Items1" xml:space="preserve">
-    <value>.jpeg</value>
-  </data>
-  <data name="comboBoxFileType.Items2" xml:space="preserve">
-    <value>.jpg</value>
-  </data>
-  <data name="comboBoxFileType.Items3" xml:space="preserve">
-    <value>.gif</value>
-  </data>
   <data name="labelHelp.Text" xml:space="preserve">
     <value>Help:</value>
   </data>
   <data name="buttonShow.Text" xml:space="preserve">
     <value>Show</value>
   </data>
+  <data name="buttonResize.Location" type="System.Drawing.Point, System.Drawing">
+    <value>197, 319</value>
+  </data>
   <data name="buttonResize.Text" xml:space="preserve">
     <value>Resize</value>
+  </data>
+  <data name="buttonSave2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>342, 319</value>
   </data>
   <data name="buttonSave2.Text" xml:space="preserve">
     <value>Save</value>
@@ -141,5 +135,42 @@
   </data>
   <data name="progressBar1.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 23</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="nr1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="nr1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 20.25pt</value>
+  </data>
+  <data name="nr1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 37</value>
+  </data>
+  <data name="nr1.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="nr2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="nr2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 20.25pt</value>
+  </data>
+  <data name="nr2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 37</value>
+  </data>
+  <data name="nr2.Text" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="sageti.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="sageti.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 15.75pt</value>
+  </data>
+  <data name="sageti.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 30</value>
+  </data>
+  <data name="sageti.Text" xml:space="preserve">
+    <value>----&gt;</value>
   </data>
 </root>

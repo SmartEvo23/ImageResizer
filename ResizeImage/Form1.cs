@@ -242,41 +242,47 @@ namespace ResizeImage
 
         private void buttonSave2_Click(object sender, EventArgs e)
         {
-            int dot = 0; 
-            int slash = 0;
-
-            for (int j = textBoxSelect.Text.Length - 1; j >= 0; j--)
+            if (String.IsNullOrEmpty(textBoxSelect.Text) && String.IsNullOrEmpty(textBoxSave.Text))
             {
-                if (textBoxSelect.Text[j] == '.')
-                    dot = j;
-                else if (textBoxSelect.Text[j] == '\\')
-                {
-                    slash = j;
-                    break;
-                }
-            }
-
-            if (comboBoxFileType.SelectedItem == null) 
-            {
-                img1.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " mijlociu" + ".jpg");
-                img2.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " 400x280" + ".jpg");
-                ((Button)sender).Enabled = false;
-                MessageBox.Show("Image saved!");
-                ((Button)sender).Enabled = true;
-            }
+                MessageBox.Show("Selectati imaginea si alegeti zona de salvare!");
+            } 
             else
             {
-                img1.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " mijlociu" + fileType[comboBoxFileType.SelectedIndex]);
-                img2.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " 400x280" + fileType[comboBoxFileType.SelectedIndex]);
-                ((Button)sender).Enabled = false;
-                MessageBox.Show("Image saved!");
-                ((Button)sender).Enabled = true;
+                int dot = 0;
+                int slash = 0;
+
+                for (int j = textBoxSelect.Text.Length - 1; j >= 0; j--)
+                {
+                    if (textBoxSelect.Text[j] == '.')
+                        dot = j;
+                    else if (textBoxSelect.Text[j] == '\\')
+                    {
+                        slash = j;
+                        break;
+                    }
+                }
+
+                if (comboBoxFileType.SelectedItem == null)
+                {
+                    img1.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " mijlociu" + ".jpg");
+                    img2.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " 400x280" + ".jpg");
+                    ((Button)sender).Enabled = false;
+                    MessageBox.Show("Image saved!");
+                    ((Button)sender).Enabled = true;
+                }
+                else
+                {
+                    img1.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " mijlociu" + fileType[comboBoxFileType.SelectedIndex]);
+                    img2.Save(textBoxSave.Text + "\\" + textBoxSelect.Text.Substring(slash + 1, dot - slash - 1) + " 400x280" + fileType[comboBoxFileType.SelectedIndex]);
+                    ((Button)sender).Enabled = false;
+                    MessageBox.Show("Image saved!");
+                    ((Button)sender).Enabled = true;
+                }
+
+                buttonResize.Enabled = true;
+                buttonSave2.Enabled = true;
+                progressBar1.Value = 0;
             }
-
-            buttonResize.Enabled = true;
-            buttonSave2.Enabled = true;
-            progressBar1.Value = 0;
-
         }
     }
 }

@@ -61,4 +61,16 @@
   <data name="labelRatio.Location" type="System.Drawing.Point, System.Drawing">
     <value>175, 127</value>
   </data>
+  <data name="buttonResize.Location" type="System.Drawing.Point, System.Drawing">
+    <value>157, 318</value>
+  </data>
+  <data name="buttonSave2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>364, 318</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>397, 278</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>265, 315</value>
+  </data>
 </root>
